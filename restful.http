@@ -1,0 +1,41 @@
+@BASE_URL = http://localhost:3000/api
+
+GET {{BASE_URL}}
+
+###
+GET {{BASE_URL}}/users
+
+###
+GET {{BASE_URL}}/users/64b7bcabf7d75f2fb0b330fa
+
+###
+POST {{BASE_URL}}/users
+Content-Type: application/json
+
+{
+    "email" : "dogukan@sad.com",
+    "username" : "atasd",
+    "password" : "merhaba"
+}
+
+###
+PATCH  {{BASE_URL}}/users/64b7bcabf7d75f2fb0b330fa
+Content-Type: application/json
+
+{
+    "password" : "159753",
+    "username" : "saners"
+}
+
+###
+DELETE  {{BASE_URL}}/users/64b7bcabf7d75f2fb0b330fa
+Content-Type: application/json
+
+###
+POST {{BASE_URL}}/users/signin
+Content-Type: application/json
+
+{
+    "email" : "dogukan@sad.com",
+    "password" : "merhaba"
+}
