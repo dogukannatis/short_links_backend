@@ -30,6 +30,14 @@ const UserSchema = new Schema({
         required: true,
         minLength: 6,
         trim: true,
+    },
+    "isAdmin": {
+        type: Boolean,
+        default: false
+    },
+    "links" : {
+        type: Array,
+        default: []
     }
 }, {collection: "users", timestamps: true});
 
@@ -52,11 +60,13 @@ UserSchema.statics.joiValidationForUpdate = function (userObject){
 
 UserSchema.methods.toJSON = function (){
     const user = this.toObject();
+    
     delete user._id;
     delete user.createdAt;
     delete user.updatedAt;
     delete user.password;
     delete user.__v;
+
     return user;
 }
 
@@ -98,7 +108,9 @@ UserSchema.methods.generateToken = async function (){
     const token = await jwt.sign({
         _id: loggedInUser._id,
         email: loggedInUser.email,
-        username: loggedInUser.email
+        username: loggedInUser.email,
+        isAdmin: loggedInUser.isAdmin,
+        links: loggedInUser.links
     }, constants.secretKey, {expiresIn: "24h"});
     return token;
 }

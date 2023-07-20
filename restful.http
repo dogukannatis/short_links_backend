@@ -1,4 +1,6 @@
 @BASE_URL = http://localhost:3000/api
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGI5MWZjMTc0N2I5ZTYxYjQzYjk5OTAiLCJlbWFpbCI6ImRvZ3VrYW5AaG90bWFpbC5jb20iLCJ1c2VybmFtZSI6ImRvZ3VrYW5AaG90bWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODk4NTQzMjcsImV4cCI6MTY4OTk0MDcyN30.ufbrgmdx2Mc51bOQ7YBOn558Qlux45mM48vWrveRg6M
+
 
 GET {{BASE_URL}}
 
@@ -13,8 +15,8 @@ POST {{BASE_URL}}/users
 Content-Type: application/json
 
 {
-    "email" : "dogukan@sad.com",
-    "username" : "atasd",
+    "email" : "dogukan@hotmail.com",
+    "username" : "dogukan",
     "password" : "merhaba"
 }
 
@@ -31,11 +33,76 @@ Content-Type: application/json
 DELETE  {{BASE_URL}}/users/64b7bcabf7d75f2fb0b330fa
 Content-Type: application/json
 
+
+###
+GET  {{BASE_URL}}/users/deleteAllUsers
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
 ###
 POST {{BASE_URL}}/users/signin
 Content-Type: application/json
 
 {
-    "email" : "dogukan@sad.com",
+    "email" : "dogukan@hotmail.com",
     "password" : "merhaba"
 }
+
+###
+POST {{BASE_URL}}/users/signin
+Content-Type: application/json
+
+{
+    "email" : "dogukan@hotmail.com",
+    "password" : "merhaba"
+}
+
+
+###
+GET {{BASE_URL}}/users/me
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "email" : "dogukan@hotmail.com",
+    "password" : "merhaba"
+}
+
+
+###
+PATCH  {{BASE_URL}}/users/me
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "password" : "159753",
+    "username" : "saneratis"
+}
+
+
+###
+GET  {{BASE_URL}}/users/getAllUsers
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "password" : "merhaba",
+    "username" : "dogukan"
+}
+
+###
+POST  {{BASE_URL}}/links/add/
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "original_link" : "istecalsin.net",
+    "short_link" : "shrtlnk.com/cba",
+    "belongs_to" : "64b91b07098d66556c52e0f4a"
+}
+
+
+###
+DELETE  {{BASE_URL}}/links/deleteMyLink/64b93dc97746a07e88cd89b4
+Content-Type: application/json
+Authorization: {{TOKEN}}
