@@ -2,16 +2,20 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Joi = require("@hapi/joi");
 
+var httpRegex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
 
 const LinkSchema = new Schema({
     "original_link": {
         type: String,
         required: true,
         trim: true,
+        validate: httpRegex
     },
-    "short_link": {
+    "link_ref": {
         type: String,
         trim: true,
+        required: true,
+        uniquie: true
     },
     "belongs_to": {
         type: String,
@@ -25,8 +29,8 @@ const LinkSchema = new Schema({
 }, {collection: "links", timestamps: true});
 
 const schema = Joi.object({
-    original_link : Joi.string().required().trim(),
-    short_link : Joi.string().trim(),
+    original_link : Joi.string().regex(httpRegex).required().trim(),
+    link_ref : Joi.string().required().trim(),
     belongs_to : Joi.string().required().trim(),
     click : Joi.number()
 });
@@ -37,7 +41,7 @@ LinkSchema.methods.joiValidation = function (linkObject){
     return schema.validate(linkObject);
 }
 
-LinkSchema.statics.joiValidationForUpdate = function (userlinkObjectObject){
+LinkSchema.statics.joiValidationForUpdate = function (linkObject){
     return schema.validate(linkObject);
 }
 

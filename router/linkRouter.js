@@ -18,8 +18,14 @@ router.post("/add", authMiddleware, linkController.addLink);
 // Delete a link with given id (Admin Operation)
 router.delete("/delete/:id", [authMiddleware, adminMiddleware], linkController.deleteLinkWithId);
 
+// Delete all links from database (Admin Operation)
+router.delete("/deleteAll", [authMiddleware, adminMiddleware], linkController.deleteAll);
+
 // Delete user's link with given id
 router.delete("/deleteMyLink/:id", authMiddleware, linkController.deleteMyLink);
+
+// Redirect to original link
+router.get("/redirect/:ref", linkController.redirect);
 
 
 
