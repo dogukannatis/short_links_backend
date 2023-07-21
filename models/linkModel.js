@@ -15,7 +15,7 @@ const LinkSchema = new Schema({
         type: String,
         trim: true,
         required: true,
-        uniquie: true
+        unique: true
     },
     "belongs_to": {
         type: String,
