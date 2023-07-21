@@ -1,5 +1,5 @@
 @BASE_URL = http://localhost:3000/api
-@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGI5MWZjMTc0N2I5ZTYxYjQzYjk5OTAiLCJlbWFpbCI6ImRvZ3VrYW5AaG90bWFpbC5jb20iLCJ1c2VybmFtZSI6ImRvZ3VrYW5AaG90bWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODk4NTQzMjcsImV4cCI6MTY4OTk0MDcyN30.ufbrgmdx2Mc51bOQ7YBOn558Qlux45mM48vWrveRg6M
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJhMzdhMGZlMDZlOGNlYzMwNTQ1ZDIiLCJlbWFpbCI6ImRvZ3VrYW5AaG90bWFpbC5jb20iLCJ1c2VybmFtZSI6ImRvZ3VrYW5AaG90bWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJsaW5rcyI6W10sImlhdCI6MTY4OTkyNTg0MCwiZXhwIjoxNjkwMDEyMjQwfQ.cWr25koAMwGr05EO0rh3XGT5h2KPZ1aOS7-bxYuKrDY
 
 
 GET {{BASE_URL}}
@@ -11,13 +11,13 @@ GET {{BASE_URL}}/users
 GET {{BASE_URL}}/users/64b7bcabf7d75f2fb0b330fa
 
 ###
-POST {{BASE_URL}}/users
+POST {{BASE_URL}}/users/saveUser
 Content-Type: application/json
 
 {
-    "email" : "dogukan@hotmail.com",
-    "username" : "dogukan",
-    "password" : "merhaba"
+    "email" : "saner@hotmail.com",
+    "username" : "saner",
+    "password" : "123456"
 }
 
 ###
@@ -45,7 +45,7 @@ Content-Type: application/json
 
 {
     "email" : "dogukan@hotmail.com",
-    "password" : "merhaba"
+    "password" : "123456"
 }
 
 ###
@@ -53,8 +53,8 @@ POST {{BASE_URL}}/users/signin
 Content-Type: application/json
 
 {
-    "email" : "dogukan@hotmail.com",
-    "password" : "merhaba"
+    "email" : "saner@hotmail.com",
+    "password" : "123456"
 }
 
 
@@ -64,8 +64,8 @@ Content-Type: application/json
 Authorization: {{TOKEN}}
 
 {
-    "email" : "dogukan@hotmail.com",
-    "password" : "merhaba"
+    "email" : "dogukan@gmail.com",
+    "password" : "dodo123"
 }
 
 
@@ -96,13 +96,18 @@ Content-Type: application/json
 Authorization: {{TOKEN}}
 
 {
-    "original_link" : "istecalsin.net",
-    "short_link" : "shrtlnk.com/cba",
-    "belongs_to" : "64b91b07098d66556c52e0f4a"
+    "original_link" : "universetheapp.com",
+    "short_link" : "shrtlnk.com/abc",
+    "belongs_to" : "64ba37a0fe06e8cec30545d2"
 }
 
 
 ###
-DELETE  {{BASE_URL}}/links/deleteMyLink/64b93dc97746a07e88cd89b4
+DELETE  {{BASE_URL}}/links/deleteMyLink/64ba37fbfe06e8cec30545db
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
+###
+DELETE  {{BASE_URL}}/links/delete/64ba37e5fe06e8cec30545d8
 Content-Type: application/json
 Authorization: {{TOKEN}}

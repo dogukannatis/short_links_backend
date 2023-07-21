@@ -17,13 +17,18 @@ const LinkSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+    },
+    "click" : {
+        type: Number,
+        default: 0
     }
 }, {collection: "links", timestamps: true});
 
 const schema = Joi.object({
     original_link : Joi.string().required().trim(),
     short_link : Joi.string().trim(),
-    belongs_to : Joi.string().required().trim()
+    belongs_to : Joi.string().required().trim(),
+    click : Joi.number()
 });
 
 

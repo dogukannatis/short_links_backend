@@ -6,18 +6,21 @@ const adminMiddleware = require("../middleware/adminMiddleware");
 
 const linkController = require("../controllers/linkController");
 
-// Get all links from database
+// Get all links from database (Admin Operation)
 router.get("/getAllLinks", [authMiddleware, adminMiddleware], linkController.getAllLinks);
 
 // Get my all links
 router.get("/getMyLinks", authMiddleware, linkController.getMyLinks);
 
-// Save a llink to the user
+// Save a link to the database
 router.post("/add", authMiddleware, linkController.addLink);
 
-router.delete("/delete/:id", [authMiddleware], linkController.deleteLinkWithId);
+// Delete a link with given id (Admin Operation)
+router.delete("/delete/:id", [authMiddleware, adminMiddleware], linkController.deleteLinkWithId);
 
-router.delete("/deleteMyLink/:id", [authMiddleware], linkController.deleteMyLink);
+// Delete user's link with given id
+router.delete("/deleteMyLink/:id", authMiddleware, linkController.deleteMyLink);
+
 
 
 module.exports = router;

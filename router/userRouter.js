@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 
 });
 
-// Get all user data
+// Get all user data (Admin Operation)
 router.get("/getAllUsers", [authMiddleware, adminMiddleware], userController.getAllUsers);
 
 // Login to the system
@@ -35,15 +35,15 @@ router.get("/:id", userController.getUserWithId);
 router.post("/saveUser", userController.saveUser);
 
 // Update user data
-router.patch("/updateUser/:id", userController.updateUser)
+router.patch("/updateUser/:id", authMiddleware, userController.updateUser)
 
 // Delete user data
 router.delete("/me", authMiddleware, userController.deleteUser);
 
-// Delete user with id
+// Delete user with id (Admin Operation)
 router.delete("/:id", [authMiddleware, adminMiddleware], userController.deleteUserWithId);
 
-// Delete all users from database
+// Delete all users from database (Admin Operation)
 router.get("/deleteAllUsers", [authMiddleware, adminMiddleware], userController.deleteAllUsers);
 
 
