@@ -3,6 +3,7 @@ const router = express.Router();
 
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddleware = require("../middleware/adminMiddleware");
+const validatorMiddleware = require("../middleware/validationMiddleware");
 
 const userController = require("../controllers/userController");
 
@@ -32,7 +33,7 @@ router.patch("/me", authMiddleware, userController.updateUserDate);
 router.get("/:id", userController.getUserWithId);
 
 // Save user data to the database
-router.post("/saveUser", userController.saveUser);
+router.post("/saveUser", validatorMiddleware.validateNewUser(), userController.saveUser);
 
 // Update user data
 router.patch("/updateUser/:id", authMiddleware, userController.updateUser)
@@ -46,6 +47,8 @@ router.delete("/:id", [authMiddleware, adminMiddleware], userController.deleteUs
 // Delete all users from database (Admin Operation)
 router.get("/deleteAllUsers", [authMiddleware, adminMiddleware], userController.deleteAllUsers);
 
+// Verify email
+router.get("/verifyEmail", userController.verifyEmail);
 
 
 

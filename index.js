@@ -6,6 +6,8 @@ const errorMiddleware = require("./middleware/errorMiddleware");
 const userRouter = require("./router/userRouter");
 const linkRouter = require("./router/linkRouter");
 
+// Session
+const session = require("express-session");
 
 const app = express();
 
@@ -14,6 +16,15 @@ app.use(express.urlencoded({extended: true}));
 
 app.use("/api/users", userRouter);
 app.use("/api/links", linkRouter);
+
+app.use(session({
+    secret: "SSK010203.Q",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}));
 
 
 app.listen(3000, ()=>{

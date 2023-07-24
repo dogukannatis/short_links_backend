@@ -38,6 +38,10 @@ const UserSchema = new Schema({
     "links" : {
         type: Array,
         default: []
+    },
+    "isEmailVerified" : {
+        type: Boolean,
+        default: false
     }
 }, {collection: "users", timestamps: true});
 
@@ -92,20 +96,24 @@ UserSchema.statics.signIn = async (email, password) => {
 
     const user = await User.findOne({email: email});
     if(!user){
-        throw createError(404, "Email or password is wrong");
+        throw createError(401, "Email or password is wrong");
+    }
+
+    if(!user.isEmailVerified){
+        throw createError(400, "Email is not verified");
     }
 
     const checkPassword = await bcrypt.compare(password, user.password);
     if(!checkPassword){
-        throw createError(404, "Email or password is wrong");
+        throw createError(401, "Email or password is wrong");
     }
 
     return user;
 }
 
-UserSchema.methods.generateToken = async function (){
+UserSchema.methods.generateToken = function (){
     const loggedInUser = this;
-    const token = await jwt.sign({
+    const token = jwt.sign({
         _id: loggedInUser._id,
         email: loggedInUser.email,
         username: loggedInUser.email,

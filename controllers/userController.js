@@ -1,7 +1,10 @@
 const User = require("../models/userModel");
 const createError = require("http-errors");
 const bcrypt = require("bcrypt");
-
+const {validationResult} = require("express-validator");
+const nodemailer = require("nodemailer");
+const constants = require("../constants");
+const jwt = require("jsonwebtoken");
 
 
 const getAllUsers =  async (req, res) => {
@@ -93,6 +96,56 @@ const saveUser = async (req, res, next) => {
 
         willBeAddedUser.password = await bcrypt.hash(req.body.password, 10);
 
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            console.log(errors.array());
+            res.json({
+                "errors" : errors.array()
+            })
+        }else{
+            const result = await willBeAddedUser.save();
+            res.json(result); 
+
+
+            // Email validation
+
+            const jwtInfo = {
+                id: willBeAddedUser._id,
+                email: willBeAddedUser.email
+            }
+            console.log(jwtInfo);
+
+            const token = jwt.sign(jwtInfo, constants.emailConfirmSecretKey, {expiresIn: "1d"});
+
+            const url = constants.url + "/api/users/verifyEmail?id=" + token;
+
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "linkshortenerproject@gmail.com",
+                    pass: "emvtlmpvddmjflwx"
+                }
+            });
+
+            transporter.sendMail({
+                from: "Link Shortener App",
+                to: willBeAddedUser.email,
+                subject: "Verify Your Email",
+                text: "Please enter following link for verify email " + url
+            }, (error, info) => {
+                if(error){
+                    console.log("HATA" + error);
+                }else{
+                    console.log("mail sent");
+                }
+            });
+
+
+        }
+
+
+        /*
         const {err, value} = willBeAddedUser.joiValidation(req.body);
         
         if(err){
@@ -101,6 +154,7 @@ const saveUser = async (req, res, next) => {
             const result = await willBeAddedUser.save();
             res.json(result); 
         }
+        */
 
         
     }catch(e){
@@ -209,6 +263,46 @@ const deleteAllUsers = async (req, res, next) => {
 }
 
 
+const verifyEmail = async (req, res, next) => {
+
+    const token = req.query.id;
+    console.log("token:" + token);
+    if(token){
+        try{
+            jwt.verify(token, constants.emailConfirmSecretKey, async (error, decoded) => {
+                if(e){
+                    next(createError(400,"Token is invalid or expired"));
+                }else{
+                    const userId = decoded.id;
+                    console.log("userId:" + userId);
+                    const result = await User.findByIdAndUpdate(
+                        userId,
+                        {
+                            "isEmailVerified" : true
+                        }
+                    );
+
+                    if(result){
+                        return res.json({
+                            "message" : "Email is verifed"
+                        });
+                    }else{
+                        next(createError(404,"Error occured"));
+                    }
+
+
+
+                }
+            });
+        }catch(e){
+            next(createError(400,e));
+        }
+    }else{
+        next(createError(404,"Token not found"));
+    }
+
+}
+
 
 
 
@@ -223,5 +317,6 @@ module.exports = {
     updateUser,
     deleteUser,
     deleteUserWithId,
-    deleteAllUsers
+    deleteAllUsers,
+    verifyEmail
 }

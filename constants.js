@@ -1,3 +1,10 @@
 const secretKey = "SecretKey.DA123";
+const emailConfirmSecretKey = "mailSecretKey.DA123";
+const url = "http://localhost:3000";
 
-module.exports = {secretKey};
+
+module.exports = {
+    secretKey, 
+    emailConfirmSecretKey,
+    url
+};

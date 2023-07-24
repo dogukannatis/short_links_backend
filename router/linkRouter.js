@@ -6,6 +6,7 @@ const adminMiddleware = require("../middleware/adminMiddleware");
 
 const linkController = require("../controllers/linkController");
 
+
 // Get all links from database (Admin Operation)
 router.get("/getAllLinks", [authMiddleware, adminMiddleware], linkController.getAllLinks);
 

@@ -1,5 +1,5 @@
 @BASE_URL = http://localhost:3000/api
-@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJhNzlkNWY2MTkwYmZlMTRlMDNlMWMiLCJlbWFpbCI6InNhbmVyQGhvdG1haWwuY29tIiwidXNlcm5hbWUiOiJzYW5lckBob3RtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImxpbmtzIjpbXSwiaWF0IjoxNjg5OTQyNTA3LCJleHAiOjE2OTAwMjg5MDd9.QQr9oEszn4qoVpiQL2e9XX398lWqgKses44h5a9mCxc
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJlNWNhZDdmYWNhMjcxZjgwOTM1NTEiLCJlbWFpbCI6InNhbmVyc0Bob3RtYWlsLmNvbSIsInVzZXJuYW1lIjoic2FuZXJzQGhvdG1haWwuY29tIiwiaXNBZG1pbiI6ZmFsc2UsImxpbmtzIjpbXSwiaWF0IjoxNjkwMjAwMTM3LCJleHAiOjE2OTAyODY1Mzd9.JQSOd9jVPtkN-rdMRavOkwCOAyluASJh0oQG_nKDrgc
 
 
 GET {{BASE_URL}}
@@ -15,7 +15,7 @@ POST {{BASE_URL}}/users/saveUser
 Content-Type: application/json
 
 {
-    "email" : "saner@hotmail.com",
+    "email" : "linkshortenerproject@gmail.com",
     "username" : "saner",
     "password" : "123456"
 }
@@ -55,6 +55,16 @@ Content-Type: application/json
 {
     "email" : "saner@hotmail.com",
     "password" : "123456"
+}
+
+###
+PATCH {{BASE_URL}}/users/updateUser/64be5cad7faca271f8093551
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "email" : "saners@hotmail.com",
+    "password": "123456"
 }
 
 
@@ -120,3 +130,7 @@ Authorization: {{TOKEN}}
 ###
 GET  {{BASE_URL}}/links/redirect/FSBNWQ
 Content-Type: application/json
+
+
+###
+GET http://localhost:3000/verifyEmail?id=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YmU4YTI3YTJlOTliYTJlZDE5MzE2ZSIsImVtYWlsIjoibGlua3Nob3J0ZW5lcnByb2plY3RAZ21haWwuY29tIiwiaWF0IjoxNjkwMjA4ODA3LCJleHAiOjE2OTAyOTUyMDd9.vRWC-Ac-pMm6QBdMjDJX4ds1RMS_5YqWErCrsvHJA0o
