@@ -270,10 +270,13 @@ const verifyEmail = async (req, res, next) => {
     if(token){
         try{
             jwt.verify(token, constants.emailConfirmSecretKey, async (error, decoded) => {
-                if(e){
+
+                console.log("decodedsa:" + decoded);
+                if(error){
                     next(createError(400,"Token is invalid or expired"));
                 }else{
                     const userId = decoded.id;
+                    console.log("decoded:" + decoded);
                     console.log("userId:" + userId);
                     const result = await User.findByIdAndUpdate(
                         userId,
@@ -303,8 +306,122 @@ const verifyEmail = async (req, res, next) => {
 
 }
 
+const forgotPassword = async (req, res, next) => {
+
+    const user = await User.findOne({
+        "email" : req.body.email
+    });
+
+    if(user){
+
+        console.log("user:: " + user);
+
+        const jwtInfo = {
+            "id": user._id,
+            "email": user.email
+        };
+
+        console.log("user: " + jwtInfo);
+
+        const secretKey = constants.resetPasswordSecretKey + "-" + user.password;
+
+        const token = jwt.sign(jwtInfo, secretKey, {expiresIn: "1d"});
 
 
+        const url = constants.url + "/api/users/resetPassword/" + user._id + "/" + token;
+
+
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "linkshortenerproject@gmail.com",
+                    pass: "emvtlmpvddmjflwx"
+                }
+            });
+
+            transporter.sendMail({
+                from: "Link Shortener App",
+                to: user.email,
+                subject: "Reset Password",
+                text: "Please enter following link for reset your password " + url
+            }, (error, info) => {
+                if(error){
+                    console.log("HATA" + error);
+                }else{
+                    console.log("mail sent");
+                }
+            });
+
+
+
+    }else{
+        next(createError(404, "User can not found"))
+    }
+
+
+}
+
+
+const resetPassword = async (req, res, next) => {
+
+    const id = req.params.id;
+    const token = req.params.token;
+
+    if(id && token){
+
+        const user = await User.findOne({
+            _id: id
+        });
+
+
+        if(user){
+
+            const secretKey = constants.resetPasswordSecretKey + "-" + user.password;
+        
+
+        jwt.verify(token, secretKey, async (e, decoded) => {
+            if(e){
+                next(createError(500, "Paramaters error"));
+            }else{
+                res.render("resetPassword", {id: id, token: token, layout: "./views/resetPassword.ejs"});
+            }
+        });
+
+        }else{
+            next(createError(404, "User not found"));
+        }
+
+    }else{
+        next(createError(500, "Paramaters are not correct"));
+    }
+
+
+}
+
+
+const saveNewPassword = async (req, res, next) => {
+
+    console.log("body" + req.body);
+
+    const newPassword = await bcrypt.hash(req.body.password,10);
+
+    const result = await User.findByIdAndUpdate(req.body.id, {
+        password: newPassword
+    })
+
+    if(result){
+
+        console.log("password has been changed!");
+        res.render("successPage", {layout: "./views/successPage.ejs"});
+    }else{
+        res.status(500).json({
+            "error" : "Something went wrong"
+        });
+    }
+
+
+    //res.redirect("/api/users/resetPassword/" + req.body.id + "/" + req.body.token);
+}
 
 
 module.exports = {
@@ -318,5 +435,8 @@ module.exports = {
     deleteUser,
     deleteUserWithId,
     deleteAllUsers,
-    verifyEmail
+    verifyEmail,
+    forgotPassword,
+    resetPassword,
+    saveNewPassword
 }
