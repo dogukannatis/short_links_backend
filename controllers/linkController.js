@@ -14,7 +14,12 @@ const getAllLinks =  async (req, res) => {
 
 
 const getMyLinks = async (req, res) => {
-    res.json(req.user);
+
+    const links = await Link.find({"belongs_to" : req.user._id});
+
+    res.json(links); 
+
+
 }
 
 const addLink = async (req, res, next) => {

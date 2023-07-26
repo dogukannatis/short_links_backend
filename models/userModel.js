@@ -65,7 +65,6 @@ UserSchema.statics.joiValidationForUpdate = function (userObject){
 UserSchema.methods.toJSON = function (){
     const user = this.toObject();
     
-    delete user._id;
     delete user.createdAt;
     delete user.updatedAt;
     delete user.password;

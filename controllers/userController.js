@@ -404,21 +404,36 @@ const saveNewPassword = async (req, res, next) => {
 
     console.log("body" + req.body);
 
-    const newPassword = await bcrypt.hash(req.body.password,10);
+    const user = await User.findOne({_id: req.body.id, isEmailVerified: true});
+    const secretKey = constants.resetPasswordSecretKey + "-" + user.password;
 
-    const result = await User.findByIdAndUpdate(req.body.id, {
-        password: newPassword
-    })
+    jwt.verify(req.body.token, secretKey, async (e, decoded) => {
+        if(e){
+            res.render("infoPage", {id: id, token: token, layout: "./views/infoPage.ejs", text: "Link has been already used or invalid link"});
+            //next(createError(500, "Paramaters error"));
+        }else{
+            const newPassword = await bcrypt.hash(req.body.password,10);
 
-    if(result){
+            const result = await User.findByIdAndUpdate(req.body.id, {
+                password: newPassword
+            })
 
-        console.log("password has been changed!");
-        res.render("successPage", {layout: "./views/successPage.ejs"});
-    }else{
-        res.status(500).json({
-            "error" : "Something went wrong"
-        });
-    }
+            if(result){
+
+                console.log("password has been changed!");
+                res.render("successPage", {layout: "./views/successPage.ejs"});
+            }else{
+                res.status(500).json({
+                    "error" : "Something went wrong"
+                });
+            }
+
+            res.render("infoPage", {id: id, token: token, layout: "./views/infoPage.ejs", text: "Password has been changed successfully!"});
+        }
+    });
+
+
+    
 
 
     //res.redirect("/api/users/resetPassword/" + req.body.id + "/" + req.body.token);
