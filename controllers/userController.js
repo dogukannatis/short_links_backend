@@ -381,9 +381,10 @@ const resetPassword = async (req, res, next) => {
 
         jwt.verify(token, secretKey, async (e, decoded) => {
             if(e){
-                next(createError(500, "Paramaters error"));
+                res.render("infoPage", {id: id, token: token, layout: "./views/infoPage.ejs", text: "Link has been already used or invalid link"});
+                //next(createError(500, "Paramaters error"));
             }else{
-                res.render("resetPassword", {id: id, token: token, layout: "./views/resetPassword.ejs"});
+                res.render("infoPage", {id: id, token: token, layout: "./views/infoPage.ejs", text: "Password has been changed successfully!"});
             }
         });
 
