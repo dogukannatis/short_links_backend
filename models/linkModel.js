@@ -50,7 +50,6 @@ LinkSchema.statics.joiValidationForUpdate = function (linkObject){
 LinkSchema.methods.toJSON = function (){
     const link = this.toObject();
 
-    delete link._id;
     delete link.createdAt;
     delete link.updatedAt;
     delete link.__v;

@@ -64,8 +64,8 @@ Content-Type: application/json
 Authorization: {{TOKEN}}
 
 {
-    "email" : "saners@hotmail.com",
-    "password": "123456"
+    "email" : "sonari8371@weizixu.com",
+    "password": "111111"
 }
 
 

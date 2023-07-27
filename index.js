@@ -5,6 +5,7 @@ const errorMiddleware = require("./middleware/errorMiddleware");
 // Routes
 const userRouter = require("./router/userRouter");
 const linkRouter = require("./router/linkRouter");
+const linkController = require("./controllers/linkController");
 
 // Session
 const session = require("express-session");
@@ -61,6 +62,9 @@ app.get("/", (req, res) => {
         "message" : "welcome"
     })
 });
+
+// Redirect to original link
+app.get("/:ref", linkController.redirect);
 
 
 app.use(errorMiddleware);

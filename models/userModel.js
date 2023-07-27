@@ -65,9 +65,9 @@ UserSchema.statics.joiValidationForUpdate = function (userObject){
 UserSchema.methods.toJSON = function (){
     const user = this.toObject();
     
+    delete user.password;
     delete user.createdAt;
     delete user.updatedAt;
-    delete user.password;
     delete user.__v;
 
     return user;
@@ -118,7 +118,7 @@ UserSchema.methods.generateToken = function (){
         username: loggedInUser.email,
         isAdmin: loggedInUser.isAdmin,
         links: loggedInUser.links
-    }, constants.secretKey, {expiresIn: "24h"});
+    }, constants.secretKey, {expiresIn: "24h"}); //expiresIn: "24h"
     return token;
 }
 
