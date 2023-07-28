@@ -140,7 +140,7 @@ const redirect = async (req, res, next) => {
             link_ref: link_ref
         }, {original_link: 1, click: 1});
 
-        console.log(link);
+        console.log("link: " + link);
 
         const original_link = link.original_link;
 

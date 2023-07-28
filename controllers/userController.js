@@ -8,9 +8,15 @@ const jwt = require("jsonwebtoken");
 
 
 const getAllUsers =  async (req, res) => {
-    const allUsers = await User.find({});
+    var perPage = 20;
+    var page = Math.max(0, req.query.page);
 
-    res.json(allUsers);
+    const allUsers = await User.find({}).limit(perPage).skip(perPage * page).sort("createdAt");
+
+    res.json({
+        "page" : page + 1,
+        "users" : allUsers,
+    });
 
 }
 
@@ -107,6 +113,7 @@ const saveUser = async (req, res, next) => {
             const result = await willBeAddedUser.save();
             res.json(result); 
 
+            //return;
 
             // Email validation
 
@@ -222,9 +229,8 @@ const deleteUser = async (req, res, next) => {
 
 const deleteUserWithId = async (req, res, next) => {
     try{
-        const result = await User.findByIdAndRemove({
-            _id: req.params.id
-        });
+        console.log("params: " + req.params.id);
+        const result = await User.findByIdAndRemove(req.params.id);
 
         if(result){
             return res.json({

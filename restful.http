@@ -1,5 +1,5 @@
 @BASE_URL = http://localhost:3000/api
-@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJmN2MwMzAwYWYyZWRlYzFmN2I3NTkiLCJlbWFpbCI6ImxpbmtzaG9ydGVuZXJwcm9qZWN0QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoibGlua3Nob3J0ZW5lcnByb2plY3RAZ21haWwuY29tIiwiaXNBZG1pbiI6ZmFsc2UsImxpbmtzIjpbXSwiaWF0IjoxNjkwMzgwNzY2LCJleHAiOjE2OTA0NjcxNjZ9.5jUYWdS4ykNYOLTvSYoADkI_ijfekqL7azay8L8PCJA
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGMzNzY3NzdjZGU4YmNmNDg3MzI2ZjEiLCJlbWFpbCI6InRlc3QyQGhvdG1haWwuY29tIiwidXNlcm5hbWUiOiJ0ZXN0MkBob3RtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImxpbmtzIjpbXSwiaWF0IjoxNjkwNTQyNzUxLCJleHAiOjE2OTA2MjkxNTF9.lyIVsx6HLtf0Hj6CI4a6oRNZ8_-thg2LXbn2L_79F5I
 
 
 GET {{BASE_URL}}
@@ -15,8 +15,8 @@ POST {{BASE_URL}}/users/saveUser
 Content-Type: application/json
 
 {
-    "email" : "linkshortenerproject@gmail.com",
-    "username" : "saner",
+    "email" : "test23@gmail.com",
+    "username" : "test23",
     "password" : "123456"
 }
 
@@ -31,14 +31,25 @@ Content-Type: application/json
 }
 
 ###
-DELETE  {{BASE_URL}}/users/64b7bcabf7d75f2fb0b330fa
+DELETE  {{BASE_URL}}/users/id/64b7bcabf7d75f2fb0b330fa
 Content-Type: application/json
-
+Authorization: {{TOKEN}}
 
 ###
 GET  {{BASE_URL}}/users/deleteAllUsers
 Content-Type: application/json
 Authorization: {{TOKEN}}
+
+
+###
+GET  {{BASE_URL}}/users/getAllUsers
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "page" : 0
+}
+
 
 ###
 POST {{BASE_URL}}/users/signin
@@ -54,8 +65,8 @@ POST {{BASE_URL}}/users/signin
 Content-Type: application/json
 
 {
-    "email" : "linkshortenerproject@gmail.com",
-    "password" : "123456"
+    "email" : "test2@hotmail.com",
+    "password" : "111111"
 }
 
 ###
@@ -138,6 +149,10 @@ Authorization: {{TOKEN}}
 
 ###
 GET  {{BASE_URL}}/links/redirect/FSBNWQ
+Content-Type: application/json
+
+###
+GET  http://localhost:3000/ROLULN
 Content-Type: application/json
 
 

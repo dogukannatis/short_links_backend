@@ -30,7 +30,7 @@ router.get("/me", authMiddleware, userController.getMyData);
 router.patch("/me", authMiddleware, userController.updateUserDate);
 
 // Get user data with id
-router.get("id/:id", userController.getUserWithId);
+router.get("/id/:id", userController.getUserWithId);
 
 // Save user data to the database
 router.post("/saveUser", validatorMiddleware.validateNewUser(), userController.saveUser);
@@ -42,7 +42,7 @@ router.patch("/updateUser/:id", authMiddleware, userController.updateUser)
 router.delete("/me", authMiddleware, userController.deleteUser);
 
 // Delete user with id (Admin Operation)
-router.delete("id/:id", [authMiddleware, adminMiddleware], userController.deleteUserWithId);
+router.delete("/id/:id", [authMiddleware, adminMiddleware], userController.deleteUserWithId);
 
 // Delete all users from database (Admin Operation)
 router.get("/deleteAllUsers", [authMiddleware, adminMiddleware], userController.deleteAllUsers);
