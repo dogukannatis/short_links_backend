@@ -1,10 +1,13 @@
 const express = require("express");
 require("./db/databaseConnection");
+
 const errorMiddleware = require("./middleware/errorMiddleware");
+
 
 // Routes
 const userRouter = require("./router/userRouter");
 const linkRouter = require("./router/linkRouter");
+const statisticsRouter = require("./router/statisticsRouter");
 const linkController = require("./controllers/linkController");
 
 // Session
@@ -40,6 +43,7 @@ app.use(cors(corsOptions)) // Use this after the variable declaration
 
 app.use("/api/users", userRouter);
 app.use("/api/links", linkRouter);
+app.use("/api/statistics", statisticsRouter);
 
 app.use(session({
     secret: "SSK010203.Q",
@@ -65,6 +69,7 @@ app.get("/", (req, res) => {
 
 // Redirect to original link
 app.get("/:ref", linkController.redirect);
+
 
 
 app.use(errorMiddleware);
