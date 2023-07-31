@@ -6,9 +6,16 @@ const stringGenerator = require('unique-string-generator');
 
 
 const getAllLinks =  async (req, res) => {
-    const allLinks = await Link.find({});
 
-    res.json(allLinks);
+    var perPage = 20;
+    var page = Math.max(0, req.query.page);
+
+    const allLinks = await Link.find({}).limit(perPage).skip(perPage * page).sort("createdAt");
+
+    res.json({
+        "page" : page + 1,
+        "links" : allLinks,
+    });
 
 }
 
