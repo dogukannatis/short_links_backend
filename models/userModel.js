@@ -4,7 +4,7 @@ const Joi = require("@hapi/joi");
 const createError = require("http-errors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const constants = require("../constants");
+require('dotenv').config()
 
 //const secretKey = "SecretKey.DA123";
 
@@ -118,7 +118,7 @@ UserSchema.methods.generateToken = function (){
         username: loggedInUser.email,
         isAdmin: loggedInUser.isAdmin,
         links: loggedInUser.links
-    }, constants.secretKey, {expiresIn: "24h"}); //expiresIn: "24h"
+    }, process.env.SECRET_KEY, {expiresIn: "24h"}); //expiresIn: "24h"
     return token;
 }
 

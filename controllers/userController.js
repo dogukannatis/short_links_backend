@@ -3,8 +3,8 @@ const createError = require("http-errors");
 const bcrypt = require("bcrypt");
 const {validationResult} = require("express-validator");
 const nodemailer = require("nodemailer");
-const constants = require("../constants");
 const jwt = require("jsonwebtoken");
+require('dotenv').config();
 
 
 const getAllUsers =  async (req, res) => {
@@ -123,9 +123,9 @@ const saveUser = async (req, res, next) => {
             }
             console.log(jwtInfo);
 
-            const token = jwt.sign(jwtInfo, constants.emailConfirmSecretKey, {expiresIn: "1d"});
+            const token = jwt.sign(jwtInfo, process.env.EMAIL_CONFIRM_SECRET_KEY, {expiresIn: "1d"});
 
-            const url = constants.url + "/api/users/verifyEmail?id=" + token;
+            const url = process.env.URL + "/api/users/verifyEmail?id=" + token;
 
             let transporter = nodemailer.createTransport({
                 service: "gmail",
@@ -275,7 +275,7 @@ const verifyEmail = async (req, res, next) => {
     console.log("token:" + token);
     if(token){
         try{
-            jwt.verify(token, constants.emailConfirmSecretKey, async (error, decoded) => {
+            jwt.verify(token, process.env.EMAIL_CONFIRM_SECRET_KEY, async (error, decoded) => {
 
                 console.log("decodedsa:" + decoded);
                 if(error){
@@ -329,12 +329,12 @@ const forgotPassword = async (req, res, next) => {
 
         console.log("user: " + jwtInfo);
 
-        const secretKey = constants.resetPasswordSecretKey + "-" + user.password;
+        const secretKey = process.env.RESET_PASSWORD_SECRET_KEY + "-" + user.password;
 
         const token = jwt.sign(jwtInfo, secretKey, {expiresIn: "1d"});
 
 
-        const url = constants.url + "/api/users/resetPassword/" + user._id + "/" + token;
+        const url = process.env.URL + "/api/users/resetPassword/" + user._id + "/" + token;
 
 
             let transporter = nodemailer.createTransport({
@@ -382,7 +382,7 @@ const resetPassword = async (req, res, next) => {
 
         if(user){
 
-            const secretKey = constants.resetPasswordSecretKey + "-" + user.password;
+            const secretKey = process.env.RESET_PASSWORD_SECRET_KEY + "-" + user.password;
         
 
         jwt.verify(token, secretKey, async (e, decoded) => {
@@ -411,7 +411,7 @@ const saveNewPassword = async (req, res, next) => {
     console.log("body" + req.body);
 
     const user = await User.findOne({_id: req.body.id, isEmailVerified: true});
-    const secretKey = constants.resetPasswordSecretKey + "-" + user.password;
+    const secretKey = process.env.RESET_PASSWORD_SECRET_KEY + "-" + user.password;
 
     jwt.verify(req.body.token, secretKey, async (e, decoded) => {
         if(e){

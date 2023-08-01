@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+require('dotenv').config()
 
-mongoose.connect("mongodb://localhost/restful_api", {useUnifiedTopology: true, useNewUrlPArser: true})
+mongoose.connect(process.env.MONGODB_CONNECTION_URL, {useUnifiedTopology: true, useNewUrlPArser: true})
     .then(()=>{
         console.log("Veritabanı bağlantısı başarılı");
     })
