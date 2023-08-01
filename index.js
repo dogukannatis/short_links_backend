@@ -1,5 +1,6 @@
 const express = require("express");
 require("./db/databaseConnection");
+require('dotenv').config();
 
 const errorMiddleware = require("./middleware/errorMiddleware");
 
@@ -55,8 +56,8 @@ app.use(session({
 }));
 
 
-app.listen(3000, ()=>{
-    console.log("Server 3000 portundan başlatıldı")
+app.listen(process.env.PORT, ()=>{
+    console.log("Server " + process.env.PORT + " portundan başlatıldı")
 });
 
 
