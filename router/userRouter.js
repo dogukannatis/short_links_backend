@@ -30,7 +30,7 @@ router.get("/me", authMiddleware, userController.getMyData);
 router.patch("/me", authMiddleware, userController.updateUserDate);
 
 // Get user data with id
-router.get("/id/:id", userController.getUserWithId);
+router.get("/id/:id", [authMiddleware, adminMiddleware], userController.getUserWithId);
 
 // Save user data to the database
 router.post("/saveUser", validatorMiddleware.validateNewUser(), userController.saveUser);
